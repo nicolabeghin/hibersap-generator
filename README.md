@@ -6,6 +6,8 @@ Simple tool generating ready-to-use [Hibersap](https://hibersap.org/)-annotated 
 
 Hibersap's programming model is quite similar to those of modern O/R mappers, significantly speeding up the development of SAP interfaces and making it much more fun to write the integration code.
 
+![hibersap](https://hibersap.org/img/HibersapMapping.png)
+
 ## Requirements
 * direct access to target SAP ERP ECC/S4 instance (by VPN or LAN)
 * SAP JCO3 libraries: [download](https://support.sap.com/en/product/connectors/jco.html) and extract to `libs/sapjco3` so that you have `libs/sapjco3/sapjco3.jar`
