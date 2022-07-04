@@ -3,6 +3,11 @@ plugins {
     id 'application'
 }
 
+File jcoLibraries = new File("libs/sapjco3/sapjco3.jar");
+if (!project.file(jcoLibraries).exists()) {
+    throw new GradleException("missing: ${project.file(jcoLibraries)}")
+}
+
 group 'org.hibersap.generator'
 version '1.0-SNAPSHOT'
 
