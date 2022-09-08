@@ -4,6 +4,7 @@ import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoDestinationManager;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 
 import java.io.File;
@@ -34,15 +35,22 @@ public class HibersapCommandLine {
     }
 
     public static Properties parseCommandLine(String[] args) throws Exception {
-        CommandLine cmd = new DefaultParser().parse(buildCommandLineOptions(), args);
-        Properties connectProperties = new Properties();
-        for (String mandatoryOption : MANDATORY_COMMAND_LINE) {
-            if (!cmd.hasOption(mandatoryOption)) {
-                throw new Exception("Missing mandatory option -" + mandatoryOption);
+        try {
+            CommandLine cmd = new DefaultParser().parse(buildCommandLineOptions(), args);
+            Properties connectProperties = new Properties();
+            for (String mandatoryOption : MANDATORY_COMMAND_LINE) {
+                if (!cmd.hasOption(mandatoryOption)) {
+                    throw new Exception("Missing mandatory option -" + mandatoryOption);
+                }
+                connectProperties.setProperty(mandatoryOption, cmd.getOptionValue(mandatoryOption));
             }
-            connectProperties.setProperty(mandatoryOption, cmd.getOptionValue(mandatoryOption));
+            return connectProperties;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("./gradlew run", buildCommandLineOptions());
+            throw ex;
         }
-        return connectProperties;
     }
 
     public String getSapFunctionModule() throws Exception {
