@@ -111,7 +111,7 @@ public class BapiParser extends AbstractBaseGenerator {
         for (JCoField jCoField : jCoRecord) {
             handleJCoField(jCoField, null, javaClassSource);
         }
-        BapiFileWriter.write(name, javaClassSource);
+        BapiFileWriter.write(name, javaClassSource, true);
     }
 
     public String getFUNCTION_MODULE() {

@@ -20,6 +20,7 @@ public class BaseBapiGenerator extends AbstractBaseGenerator {
 
     private static final String[] DEFAULT_IMPORTS = new String[]{
             "org.hibersap.annotations.*",
+            BapiConstants.TARGET_JAVA_PACKAGE_STRUCTURE,
             "java.util.ArrayList",
             "java.util.List",
             "java.util.Date",

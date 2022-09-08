@@ -17,8 +17,13 @@ import java.nio.file.StandardOpenOption;
 public class BapiFileWriter extends AbstractBaseGenerator {
 
     public static void write(String name, JavaClassSource javaClassSource) {
+        write(name, javaClassSource, false);
+    }
 
-        File targetFolder = Paths.get(BapiConstants.OUTPUT_FOLDER, BapiConstants.TARGET_JAVA_PACKAGE.replaceAll("\\.", "/")).toFile();
+    public static void write(String name, JavaClassSource javaClassSource, boolean structure) {
+        final String PACKAGE = (structure ? BapiConstants.TARGET_JAVA_PACKAGE_STRUCTURE : BapiConstants.TARGET_JAVA_PACKAGE);
+        File targetFolder = Paths.get(BapiConstants.OUTPUT_FOLDER, PACKAGE.replaceAll("\\.", "/")).toFile();
+        javaClassSource.setPackage(PACKAGE);
         if (!targetFolder.exists()) {
             LOG.info("Creating target folder " + targetFolder.getAbsolutePath());
             targetFolder.mkdirs();
