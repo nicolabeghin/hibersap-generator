@@ -2,6 +2,7 @@ package org.hibersap.generator.jco;
 
 import com.sap.conn.jco.JCoField;
 import com.sap.conn.jco.JCoMetaData;
+import com.sap.conn.jco.JCoRecord;
 import org.hibersap.generator.base.AbstractBaseGenerator;
 
 /**
@@ -11,7 +12,7 @@ public final class AbapToJavaTypeMapper extends AbstractBaseGenerator {
 
     public static String getJavaTypeFromAbap(JCoField jCoField) throws Exception {
         if (isComplexType(jCoField)) {
-            return String.format("List<%s>", jCoField.getRecordMetaData().getName());
+            return String.format("List<%s>", cleanupClassName(jCoField));
         }
         switch (jCoField.getType()) {
             case JCoMetaData.TYPE_CHAR:
@@ -39,6 +40,26 @@ public final class AbapToJavaTypeMapper extends AbstractBaseGenerator {
             default:
                 throw new Exception("Unhandled type " + jCoField.getTypeAsString() + "(code " + jCoField.getType() + ")");
         }
+    }
+
+    private static String cleanupClassName(JCoField jCoField) {
+        return cleanupClassName(jCoField.getRecordMetaData().getName());
+    }
+
+    public static String cleanupClassName(JCoRecord jCoField) {
+        return cleanupClassName(jCoField.getMetaData().getName());
+    }
+
+    private static String cleanupClassName(String className) {
+        String originalClassName = className;
+        if (className.startsWith("/")) { // remove leading slash
+            className = className.substring(1);
+        }
+        if (className.contains("/")) { // remove slashes in class name
+            className = className.replaceAll("/", "_");
+            LOG.warning("Renamed ABAP class " + originalClassName + " to " + className);
+        }
+        return className;
     }
 
     public static boolean isComplexType(JCoField jCoField) {

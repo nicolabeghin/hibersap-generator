@@ -105,9 +105,9 @@ public class BapiParser extends AbstractBaseGenerator {
      * Recursive function to handle ABAP complex types (STRUCTURE and TABLE)
      */
     private void handleComplexType(JCoRecord jCoRecord) throws Exception {
-        String name = jCoRecord.getMetaData().getName();
+        String name = AbapToJavaTypeMapper.cleanupClassName(jCoRecord);
         LOG.info("Handling complex ABAP type " + name);
-        JavaClassSource javaClassSource = BaseBapiGenerator.createStructureClass(jCoRecord.getMetaData().getName(), this);
+        JavaClassSource javaClassSource = BaseBapiGenerator.createStructureClass(name, this);
         for (JCoField jCoField : jCoRecord) {
             handleJCoField(jCoField, null, javaClassSource);
         }
