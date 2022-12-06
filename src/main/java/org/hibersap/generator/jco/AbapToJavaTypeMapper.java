@@ -11,10 +11,11 @@ import org.hibersap.generator.base.AbstractBaseGenerator;
 public final class AbapToJavaTypeMapper extends AbstractBaseGenerator {
 
     public static String getJavaTypeFromAbap(JCoField jCoField) throws Exception {
-        if (isComplexType(jCoField)) {
-            return String.format("List<%s>", cleanupClassName(jCoField));
-        }
         switch (jCoField.getType()) {
+            case JCoMetaData.TYPE_TABLE:
+                return String.format("List<%s>", cleanupClassName(jCoField));
+            case JCoMetaData.TYPE_STRUCTURE:
+                return cleanupClassName(jCoField);
             case JCoMetaData.TYPE_CHAR:
             case JCoMetaData.TYPE_STRING:
             case JCoMetaData.TYPE_NUM:
@@ -42,7 +43,7 @@ public final class AbapToJavaTypeMapper extends AbstractBaseGenerator {
         }
     }
 
-    private static String cleanupClassName(JCoField jCoField) {
+    public static String cleanupClassName(JCoField jCoField) {
         return cleanupClassName(jCoField.getRecordMetaData().getName());
     }
 
@@ -60,15 +61,5 @@ public final class AbapToJavaTypeMapper extends AbstractBaseGenerator {
             LOG.warning("Renamed ABAP class " + originalClassName + " to " + className);
         }
         return className;
-    }
-
-    public static boolean isComplexType(JCoField jCoField) {
-        switch (jCoField.getType()) {
-            case JCoMetaData.TYPE_STRUCTURE:
-            case JCoMetaData.TYPE_TABLE:
-                return true;
-            default:
-                return false;
-        }
     }
 }

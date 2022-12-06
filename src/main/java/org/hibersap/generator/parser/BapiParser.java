@@ -70,8 +70,13 @@ public class BapiParser extends AbstractBaseGenerator {
         FieldSource field = propertySource.getField();
 
         // initialize field if complex type
-        if (AbapToJavaTypeMapper.isComplexType(jCoField)) {
-            field.setLiteralInitializer(String.format("new ArrayList<%s>()", jCoField.getRecordMetaData().getName()));
+        switch (jCoField.getType()) {
+            case JCoMetaData.TYPE_TABLE:
+                field.setLiteralInitializer(String.format("new ArrayList<%s>()", jCoField.getRecordMetaData().getName()));
+                break;
+            case JCoMetaData.TYPE_STRUCTURE:
+                field.setLiteralInitializer(String.format("new %s()", AbapToJavaTypeMapper.cleanupClassName(jCoField)));
+                break;
         }
 
         // add @Required annotation if not optional
