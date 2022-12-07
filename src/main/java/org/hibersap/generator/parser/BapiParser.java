@@ -102,7 +102,11 @@ public class BapiParser extends AbstractBaseGenerator {
         }
 
         // add original ABAP field reference
-        field.addAnnotation(BaseBapiGenerator.BAPI_PARAMETER_ANNOTATION).setStringValue(jCoField.getName());
+        if (jCoField.getType() == JCoMetaData.TYPE_STRUCTURE) {
+            field.addAnnotation(org.hibersap.annotations.Parameter.class).setStringValue("value", jCoField.getName()).setEnumValue("type", org.hibersap.annotations.ParameterType.STRUCTURE);
+        } else {
+            field.addAnnotation(org.hibersap.annotations.Parameter.class).setStringValue(jCoField.getName());
+        }
         return propertySource;
     }
 
