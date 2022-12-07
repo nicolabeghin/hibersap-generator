@@ -13,13 +13,14 @@ import java.util.Date;
 public class BaseBapiGenerator extends AbstractBaseGenerator {
 
     private static final String[] DEFAULT_IMPORTS = new String[]{
-            "org.hibersap.annotations.*",
             BapiConstants.TARGET_JAVA_PACKAGE_STRUCTURE,
-            "java.util.ArrayList",
-            "java.util.List",
-            "java.util.Date",
-            "java.math.BigDecimal",
             "javax.validation.constraints.Required"
+    };
+    private static final Class[] DEFAULT_IMPORTS_CLASSES = new Class[]{
+            java.util.ArrayList.class,
+            java.util.List.class,
+            java.util.Date.class,
+            java.math.BigDecimal.class
     };
 
     /**
@@ -49,7 +50,9 @@ public class BaseBapiGenerator extends AbstractBaseGenerator {
         for (String defaultImport : DEFAULT_IMPORTS) {
             javaClass.addImport(defaultImport);
         }
-
+        for (Class clazz : DEFAULT_IMPORTS_CLASSES) {
+            javaClass.addImport(clazz);
+        }
         javaClass.addMethod().setConstructor(true).setPublic();
         javaClass.getJavaDoc()
                 .addTagValue("@sapsystem", bapiParser.getjCoDestination().getDestinationName())
