@@ -22,6 +22,7 @@ repositories {
 dependencies {
     implementation 'org.jboss.forge.roaster:roaster-api:2.25.0.Final'
     implementation 'org.jboss.forge.roaster:roaster-jdt:2.25.0.Final'
+    implementation 'org.hibersap:hibersap-core:1.4.0'
     implementation 'commons-cli:commons-cli:1.5.0'
     implementation files('libs/sapjco3/sapjco3.jar')
 }

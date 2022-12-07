@@ -88,13 +88,13 @@ public class BapiParser extends AbstractBaseGenerator {
         if (jCoDirection != null) {
             switch (jCoDirection) {
                 case IMPORT:
-                    field.addAnnotation(BaseBapiGenerator.BAPI_IMPORT_ANNOTATION);
+                    field.addAnnotation(org.hibersap.annotations.Import.class);
                     break;
                 case EXPORT:
-                    field.addAnnotation(BaseBapiGenerator.BAPI_EXPORT_ANNOTATION);
+                    field.addAnnotation(org.hibersap.annotations.Export.class);
                     break;
                 case TABLE:
-                    field.addAnnotation(BaseBapiGenerator.BAPI_TABLE_ANNOTATION);
+                    field.addAnnotation(org.hibersap.annotations.Table.class);
                     break;
                 default:
                     break;
