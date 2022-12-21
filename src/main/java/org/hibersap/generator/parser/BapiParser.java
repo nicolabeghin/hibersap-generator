@@ -17,6 +17,7 @@ public class BapiParser extends AbstractBaseGenerator {
     public BapiParser(String FUNCTION_MODULE, JCoDestination jCoDestination) {
         this.FUNCTION_MODULE = FUNCTION_MODULE;
         this.jCoDestination = jCoDestination;
+        setupFunctionModuleFileLogger(FUNCTION_MODULE);
     }
 
     /**
@@ -65,6 +66,8 @@ public class BapiParser extends AbstractBaseGenerator {
         // add description from ABAP comment
         if (jCoField.getDescription() != null) {
             propertySource.getField().getJavaDoc().setText(jCoField.getDescription());
+        } else {
+            LOG.warning("No description for field "+jCoField.getName());
         }
 
         FieldSource field = propertySource.getField();

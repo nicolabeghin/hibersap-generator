@@ -27,4 +27,16 @@ public abstract class AbstractBaseGenerator {
             System.err.println("Unable to setup logger: " + ex.getMessage());
         }
     }
+
+    public static void setupFunctionModuleFileLogger(String FUNCTION_MODULE) {
+        if (LOG==null) return;
+        try {
+            FileHandler handler = new FileHandler(String.format("%s.log", FUNCTION_MODULE));
+            handler.setFormatter(new SimpleFormatter());
+            handler.setLevel(Level.ALL);
+            LOG.addHandler(handler);
+        } catch (Exception ex) {
+            System.err.println("Unable to setup logger: " + ex.getMessage());
+        }
+    }
 }
