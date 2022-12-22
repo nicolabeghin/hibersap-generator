@@ -22,6 +22,9 @@ public class BapiFileWriter extends AbstractBaseGenerator {
 
     public static void write(String name, JavaClassSource javaClassSource, boolean structure) {
         final String PACKAGE = (structure ? BapiConstants.TARGET_JAVA_PACKAGE_STRUCTURE : BapiConstants.TARGET_JAVA_PACKAGE);
+        if (structure) {
+            javaClassSource.removeImport(BapiConstants.TARGET_JAVA_PACKAGE_STRUCTURE);
+        }
         File targetFolder = Paths.get(BapiConstants.OUTPUT_FOLDER, PACKAGE.replaceAll("\\.", "/")).toFile();
         javaClassSource.setPackage(PACKAGE);
         if (!targetFolder.exists()) {
