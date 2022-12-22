@@ -53,7 +53,7 @@ public class BaseBapiGenerator extends AbstractBaseGenerator {
         for (Class clazz : DEFAULT_IMPORTS_CLASSES) {
             javaClass.addImport(clazz);
         }
-        javaClass.addMethod().setConstructor(true).setPublic();
+        javaClass.addMethod().setConstructor(true).setPublic().setBody("");
         javaClass.getJavaDoc()
                 .addTagValue("@sapsystem", bapiParser.getjCoDestination().getDestinationName())
                 .addTagValue("@date", new SimpleDateFormat("yyyy.MM.dd").format(new Date()))
