@@ -13,14 +13,14 @@ import java.util.Date;
 public class BaseBapiGenerator extends AbstractBaseGenerator {
 
     private static final String[] DEFAULT_IMPORTS = new String[]{
-            BapiConstants.TARGET_JAVA_PACKAGE_STRUCTURE,
-            "javax.validation.constraints.Required"
+            BapiConstants.TARGET_JAVA_PACKAGE_STRUCTURE
     };
     private static final Class[] DEFAULT_IMPORTS_CLASSES = new Class[]{
             java.util.ArrayList.class,
             java.util.List.class,
             java.util.Date.class,
-            java.math.BigDecimal.class
+            java.math.BigDecimal.class,
+            javax.validation.constraints.NotNull.class
     };
 
     /**

@@ -84,7 +84,7 @@ public class BapiParser extends AbstractBaseGenerator {
 
         // add @Required annotation if not optional
         if (jCoField instanceof JCoParameterField && !((JCoParameterField) jCoField).isOptional()) {
-            field.addAnnotation("javax.validation.constraints.Required");
+            field.addAnnotation(javax.validation.constraints.NotNull.class);
         }
 
         // add Hibersap annotation for import/export/table
