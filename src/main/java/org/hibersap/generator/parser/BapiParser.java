@@ -2,6 +2,7 @@ package org.hibersap.generator.parser;
 
 import com.sap.conn.jco.*;
 import org.hibersap.generator.base.AbstractBaseGenerator;
+import org.hibersap.generator.base.BapiConstants;
 import org.hibersap.generator.base.BaseBapiGenerator;
 import org.hibersap.generator.jco.AbapToJavaTypeMapper;
 import org.hibersap.generator.jco.JCoDirection;
@@ -9,6 +10,11 @@ import org.hibersap.generator.writer.BapiFileWriter;
 import org.jboss.forge.roaster.model.source.FieldSource;
 import org.jboss.forge.roaster.model.source.JavaClassSource;
 import org.jboss.forge.roaster.model.source.PropertySource;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Comparator;
 
 public class BapiParser extends AbstractBaseGenerator {
     private final String FUNCTION_MODULE;
@@ -27,11 +33,20 @@ public class BapiParser extends AbstractBaseGenerator {
         LOG.info("Parsing SAP RFC " + FUNCTION_MODULE);
         JCoFunction functionModule = jCoDestination.getRepository().getFunction(FUNCTION_MODULE);
         LOG.info("Successfully retrieved RFC");
+        this.cleanupTargetFolder();
         JavaClassSource javaClassSource = BaseBapiGenerator.createBapiClass(FUNCTION_MODULE, this);
         parseParameterList(functionModule.getImportParameterList(), JCoDirection.IMPORT, javaClassSource);
         parseParameterList(functionModule.getExportParameterList(), JCoDirection.EXPORT, javaClassSource);
         parseParameterList(functionModule.getTableParameterList(), JCoDirection.TABLE, javaClassSource);
         BapiFileWriter.write(FUNCTION_MODULE, javaClassSource);
+    }
+
+    private void cleanupTargetFolder() {
+        try {
+            Files.walk(new File(BapiConstants.OUTPUT_FOLDER).toPath()).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+        } catch (Exception ex) {
+            LOG.severe("Unable to delete " + BapiConstants.OUTPUT_FOLDER + " - " + ex.getMessage());
+        }
     }
 
     /**
@@ -67,7 +82,7 @@ public class BapiParser extends AbstractBaseGenerator {
         if (jCoField.getDescription() != null) {
             propertySource.getField().getJavaDoc().setText(jCoField.getDescription());
         } else {
-            LOG.warning("No description for field "+jCoField.getName());
+            LOG.warning("No description for field " + jCoField.getName());
         }
 
         FieldSource field = propertySource.getField();
