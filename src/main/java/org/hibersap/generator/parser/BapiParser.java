@@ -32,6 +32,9 @@ public class BapiParser extends AbstractBaseGenerator {
     public void parse() throws Exception {
         LOG.info("Parsing SAP RFC " + FUNCTION_MODULE);
         JCoFunction functionModule = jCoDestination.getRepository().getFunction(FUNCTION_MODULE);
+        if (functionModule == null) {
+            throw new Exception("RFC " + FUNCTION_MODULE + " not available in target SAP system");
+        }
         LOG.info("Successfully retrieved RFC");
         this.cleanupTargetFolder();
         JavaClassSource javaClassSource = BaseBapiGenerator.createBapiClass(FUNCTION_MODULE, this);
